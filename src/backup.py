@@ -12,7 +12,7 @@
 from sys import argv
 from pathlib import Path
 from shutil import copy
-from utils import *
+from src.utils import *
 
 source_dir_count = 0
 source_files_count = 0
