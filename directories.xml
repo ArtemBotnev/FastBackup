@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<directories>
+    <copytask source="~/test_backup" destination="~/Desktop/"/>
+    <copytask source="~/test_backup_2" destination="~/Desktop/2/"/>
+</directories>
