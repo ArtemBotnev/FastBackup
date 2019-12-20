@@ -2,6 +2,7 @@
 # Copyright Artem Botnev 2019
 # MIT License
 
+
 class CopyTask:
 
     def __init__(self, source, destination, excluded_list):
