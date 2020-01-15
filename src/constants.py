@@ -2,12 +2,12 @@
 # Copyright Artem Botnev 2019
 # MIT License
 
-
-FILE_PATH = '..'
+DIRECTORIES = 'directories'
 XML_POSTFIX = '.xml'
 LOG_POSTFIX = '.log'
 
 # Report map keys
+HEAD = 'head'
 DURATION = 'duration'
 SOURCE_DIR_COUNT = 'source_dir_count'
 SOURCE_FILES_COUNT = 'source_files_count'

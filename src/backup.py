@@ -9,97 +9,29 @@
 # Copies full directories tree
 # Exclude empty folders
 
-from sys import argv
-from pathlib import Path
-from shutil import copy
-from src.utils import *
-
-source_dir_count = 0
-source_files_count = 0
-copied_files_count = 0
-updated_files_count = 0
-data_size = 0
-
-home_path = str(Path.home())
-source_dir = argv[1]
-dist_dir = argv[2]
+import constants as c
+from parser import Parser
+from runner import TaskRunner
 
 
-def create_dir(p):
+def print_report(r):
+    print()
+    print(r[c.HEAD])
+    print()
+    print()
+    print(r[c.DURATION])
+    print()
+    print(r[c.SOURCE_DIR_COUNT])
+    print(r[c.SOURCE_FILES_COUNT])
+    print(r[c.COPIED_FILES_COUNT])
+    print(r[c.UPDATED_FILES_COUNT])
+    print(r[c.DATA_SIZE])
+
+
+tasks = Parser(c.DIRECTORIES).directories
+for t in tasks:
     try:
-        p.mkdir(parents=True, exist_ok=True)
-    except OSError:
-        print('Creation of the directory %s failed, check path name and try again' % dist_path)
-
-
-def check_path(p):
-    if not p.exists():
-        message = format('directory %s doesn\'t exist, would you like to create it? press y(yes), n(no)' % dist_dir)
-        answer = input(message)
-        if answer == 'y' or answer == 'Y':
-            create_dir(p)
-        elif answer == 'n' or answer == 'N':
-            print('Destination directory doesn\'t exist')
-            exit(0)
-        else:
-            check_path(p)
-
-
-def copy_file(file, destination):
-    global source_files_count
-    global copied_files_count
-    global updated_files_count
-    global data_size
-    source_files_count += 1
-
-    dist_file_path = destination.joinpath(file.relative_to(source_path))
-
-    if dist_file_path.exists():
-        if dist_file_path.stat().st_mtime < file.stat().st_mtime:
-            copy(file.absolute(), dist_file_path)
-            updated_files_count += 1
-            data_size += file.stat().st_size
-    else:
-        dist_dir = dist_file_path.parent
-        create_dir(dist_dir)
-        copy(file.absolute(), dist_dir)
-        copied_files_count += 1
-        data_size += file.stat().st_size
-
-
-def copy_tree(source, destination):
-    global source_dir_count
-
-    if source.is_dir():
-        source_dir_count += 1
-        for path in source.iterdir():
-            copy_tree(path, destination)
-    else:
-        copy_file(source, destination)
-
-
-print()
-print('Copy data from %s to %s' % (source_dir, dist_dir))
-print()
-
-source_path = Path(source_dir).expanduser()
-if not source_path.exists():
-    print('Source directory doesn\'t exist')
-    exit(1)
-
-dist_path = Path(dist_dir).expanduser()
-check_path(dist_path)
-
-timer = Timer().start()
-copy_tree(source_path, dist_path)
-timer.stop()
-
-print()
-print(timer.show_time())
-print()
-print('Total count of source packages:  %d' % source_dir_count)
-print('Total count of source files:     %d' % source_files_count)
-print('Total count of copied files:     %d' % copied_files_count)
-print('Total count of updated files:    %d' % updated_files_count)
-print()
-print('Total copied data:               %s' % DataMeasure.show_data_size(data_size))
+        report = TaskRunner().execute(t)
+        print_report(report)
+    except FileNotFoundError:
+        print('Source directory %s doesn\'t exist' % t.source)
