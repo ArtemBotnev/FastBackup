@@ -2,7 +2,8 @@
 # Copyright Artem Botnev 2019
 # MIT License
 
-DIRECTORIES = 'directories'
+# DIRECTORIES = 'directories'
+DIRECTORIES = '../directories'
 XML_POSTFIX = '.xml'
 LOG_POSTFIX = '.log'
 

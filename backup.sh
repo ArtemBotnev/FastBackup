@@ -11,7 +11,8 @@
 
 # example of usage:
 
-# ./backup.sh ~/source ~/dist
-# will copy -> subdirectories with files from ~/source to ~/dist
+# ./backup.sh
+# will copy -> subdirectories with files from ~/source to ~/dis, defined in directories.xml file.
 
-python3 $(dirname "$0")/src/backup.py $1 $2
+cd src
+python3 $(dirname "$0")/backup.py

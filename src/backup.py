@@ -17,8 +17,6 @@ from runner import TaskRunner
 def print_report(r):
     print()
     print(r[c.HEAD])
-    print()
-    print()
     print(r[c.DURATION])
     print()
     print(r[c.SOURCE_DIR_COUNT])
@@ -26,6 +24,7 @@ def print_report(r):
     print(r[c.COPIED_FILES_COUNT])
     print(r[c.UPDATED_FILES_COUNT])
     print(r[c.DATA_SIZE])
+    print()
 
 
 tasks = Parser(c.DIRECTORIES).directories

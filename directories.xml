@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <directories>
-    <copytask source="~/Downloads/DemoPrograms/" destination="~/Desktop/test"/>
+    <copytask source="~/Downloads/DemoPrograms" destination="~/Desktop/test"/>
+    <copytask source="~/Downloads/Test_parce" destination="~/Desktop/test"/>
     <copytask source="~/Downloads/MXBrowser_v1.0.1-signed.apk" destination="~/Desktop/test2"/>
+    <copytask source="~/Downloads/tmpl_0000_190524151900" destination="~/Desktop/test2"/>
 </directories>
