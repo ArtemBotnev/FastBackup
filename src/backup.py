@@ -27,6 +27,9 @@ def print_report(r):
     print()
 
 
+print()
+print('STARTED')
+
 tasks = Parser(c.DIRECTORIES).directories
 for t in tasks:
     try:
@@ -34,3 +37,5 @@ for t in tasks:
         print_report(report)
     except FileNotFoundError:
         print('Source directory %s doesn\'t exist' % t.source)
+
+print('FINISHED')

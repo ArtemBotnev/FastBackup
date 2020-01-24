@@ -20,8 +20,7 @@ class TaskRunner:
     _updated_files_count = 0
     _data_size = 0
 
-    _is_new_dir = False
-    _root_is_dir = True
+    _root_is_file = False
 
     def execute(self, task):
         self._task = task
@@ -33,10 +32,11 @@ class TaskRunner:
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), source_path)
 
         dist_path = Path(task.destination).expanduser()
-        if source_path.is_dir():
-            dist_path = dist_path.joinpath(PurePath(source_path).name)
-        else:
-            self._root_is_dir = False
+
+        if source_path.is_file():
+            self._root_is_file = True
+
+        dist_path = dist_path.joinpath(PurePath(source_path).name)
 
         self._check_path(dist_path)
 
@@ -62,13 +62,18 @@ class TaskRunner:
             print('Creation of the directory %s failed, check path name and try again' % self._task.destination)
 
     def _check_path(self, p):
+        first_word = 'directory'
+        if self._root_is_file:
+            first_word = 'file'
+
         if not p.exists():
             message = format(
-                'directory %s doesn\'t exist, would you like to create it? press y(yes), n(no)' % p
+                '%s %s doesn\'t exist, would you like to create it? press y(yes), n(no)' % (first_word, p)
             )
             answer = input(message)
             if answer == 'y' or answer == 'Y':
-                self._is_new_dir = True
+                if self._root_is_file:
+                    p = p.parent
                 self._create_dir(p)
             elif answer == 'n' or answer == 'N':
                 print('Destination directory doesn\'t exist')
@@ -87,18 +92,18 @@ class TaskRunner:
     def _copy_file(self, file, destination):
         self._source_files_count += 1
 
-        if not self._root_is_dir:
-            self._copy_and_increment(file, destination)
-
         if destination.exists():
-            if self._is_new_dir or destination.stat().st_mtime < file.stat().st_mtime:
-                self._copy_and_increment(file, destination)
+            if destination.stat().st_mtime < file.stat().st_mtime:
+                self._copy_and_increment(file, destination, False)
         else:
-            dist_dir = destination.parent
-            self._create_dir(dist_dir)
-            self._copy_and_increment(file, dist_dir)
+            destination = destination.parent
+            self._create_dir(destination)
+            self._copy_and_increment(file, destination, True)
 
-    def _copy_and_increment(self, file, des):
-        copy(file.absolute(), des)
-        self._updated_files_count += 1
-        self._data_size += file.stat().st_size
+    def _copy_and_increment(self, sour, des, is_new):
+        copy(sour.absolute(), des)
+        if is_new:
+            self._copied_files_count += 1
+        else:
+            self._updated_files_count += 1
+        self._data_size += sour.stat().st_size
