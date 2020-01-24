@@ -12,7 +12,8 @@
 # example of usage:
 
 # ./backup.sh
-# will copy -> subdirectories with files from ~/source to ~/dis, defined in directories.xml file.
+# will copy -> subdirectories with files from ~/source to ~/dis, defined in directories.xml file,
+# excluded empty directories
 
 cd src
 python3 $(dirname "$0")/backup.py

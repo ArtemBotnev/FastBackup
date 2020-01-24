@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
+<!--Specify your source and destination directories here, as shown in example below (change it for you).-->
+<!--Last directory (file) in the source path will be copied into directory of destination path.-->
+
 <directories>
     <copytask source="~/Downloads/DemoPrograms" destination="~/Desktop/test"/>
     <copytask source="~/Downloads/Test_parce" destination="~/Desktop/test"/>

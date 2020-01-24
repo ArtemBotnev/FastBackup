@@ -10,7 +10,6 @@
  
  Exclude empty folders.
  
-#### *Usage example:*
-copy data from ```~/source``` directory to ```~/dist``` directory
-```sh
-./backup.sh ~/source ~/dist
+#### *How does it work?*
+ Specify your source and destination directories in directories.xml file (read explanation in this file).
+ On Linux or Mac OS just run ``` ./backup.sh ```
