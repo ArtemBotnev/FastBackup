@@ -3,11 +3,17 @@
 # MIT License
 
 import time
+from datetime import datetime
+import constants as c
 
 
 class Timer:
     _start_time = 0
     _finish_time = 0
+
+    @staticmethod
+    def get_current_time():
+        return datetime.now().strftime(c.TIME_PATTERN)
 
     def start(self):
         self._start_time = time.time()

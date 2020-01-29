@@ -12,10 +12,10 @@
 import constants as c
 from parser import Parser
 from runner import TaskRunner
+from utils import Timer
 
 
 def print_report(r):
-    print()
     print(r[c.HEAD])
     print(r[c.DURATION])
     print()
@@ -25,10 +25,12 @@ def print_report(r):
     print(r[c.UPDATED_FILES_COUNT])
     print(r[c.DATA_SIZE])
     print()
+    print()
 
 
 print()
-print('STARTED')
+print('STARTED at %s' % Timer.get_current_time())
+print()
 
 tasks = Parser(c.DIRECTORIES).directories
 for t in tasks:
@@ -38,4 +40,4 @@ for t in tasks:
     except FileNotFoundError:
         print('Source directory %s doesn\'t exist' % t.source)
 
-print('FINISHED')
+print('FINISHED at %s' % Timer.get_current_time())

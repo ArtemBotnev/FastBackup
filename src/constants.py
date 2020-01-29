@@ -15,3 +15,7 @@ SOURCE_FILES_COUNT = 'source_files_count'
 COPIED_FILES_COUNT = 'copied_files_count'
 UPDATED_FILES_COUNT = 'updated_files_count'
 DATA_SIZE = 'data_size'
+
+# Time pattern
+# TIME_PATTERN = '%a  %b %d %Y %H:%M'
+TIME_PATTERN = '%a %d %b %Y %H:%M'
