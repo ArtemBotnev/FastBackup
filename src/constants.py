@@ -4,6 +4,8 @@
 
 # DIRECTORIES = 'directories'
 DIRECTORIES = '../directories'
+# SETTINGS = 'settings'
+SETTINGS = '../settings'
 XML_POSTFIX = '.xml'
 LOG_POSTFIX = '.log'
 
@@ -15,6 +17,12 @@ SOURCE_FILES_COUNT = 'source_files_count'
 COPIED_FILES_COUNT = 'copied_files_count'
 UPDATED_FILES_COUNT = 'updated_files_count'
 DATA_SIZE = 'data_size'
+
+# Settings map keys
+CHECK_ONLY_BY_NAME = 'check_only_by_name'
+# Settings values
+TRUE = 'yes'
+FALSE = 'no'
 
 # Time pattern
 # TIME_PATTERN = '%a  %b %d %Y %H:%M'

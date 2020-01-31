@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--Settings file allows to change some property of script.-->
+
+<!--Property check_only_by_name:-->
+<!-- When this property is no - -->
+<!--   each file will be copied if it doesn't exist in destination directory-->
+<!--   or date last file change in source directory greater than ones in destination directory.-->
+<!-- When this property is yes - -->
+<!--   each file will be copied only if it doesn't exist in destination directory (file with equal name and path).-->
+
+<settings>
+    <property key="check_only_by_name" value="no"/>
+</settings>

@@ -9,15 +9,30 @@ from entities import CopyTask
 
 class Parser:
     _tasks = []
+    _settings = {}
 
-    def __init__(self, file_name):
-        file_full_path = file_name + c.XML_POSTFIX
-        root = p.parse(file_full_path).getroot()
+    def __init__(self):
+        pass
 
-        for task in root.findall('./copytask'):
+    def parse_tasks(self, file_name):
+        for task in self._get_items(file_name, './copytask'):
             task = CopyTask(task.attrib['source'], task.attrib['destination'], [])
             self._tasks.append(task)
+            return self
+
+    def parse_settings(self, file_name):
+        for prop in self._get_items(file_name, './property'):
+            self._settings[prop.attrib['key']] = prop.attrib['value'] == c.TRUE
+            return self
+
+    def _get_items(self, file_name, item_name):
+        file_full_path = file_name + c.XML_POSTFIX
+        return p.parse(file_full_path).getroot().findall(item_name)
 
     @property
-    def directories(self):
+    def tasks(self):
         return self._tasks
+
+    @property
+    def settings(self):
+        return self._settings

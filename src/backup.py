@@ -32,10 +32,13 @@ print()
 print('STARTED at %s' % Timer.get_current_time())
 print()
 
-tasks = Parser(c.DIRECTORIES).directories
+parser = Parser().parse_tasks(c.DIRECTORIES).parse_settings(c.SETTINGS)
+tasks = parser.tasks
+settings = parser.settings
+
 for t in tasks:
     try:
-        report = TaskRunner().execute(t)
+        report = TaskRunner(settings).execute(t)
         print_report(report)
     except FileNotFoundError:
         print('Source directory %s doesn\'t exist' % t.source)

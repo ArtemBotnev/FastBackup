@@ -12,6 +12,7 @@ from utils import *
 
 class TaskRunner:
     _task = None
+    _settings = {}
     _report = {}
 
     _source_dir_count = 0
@@ -21,6 +22,9 @@ class TaskRunner:
     _data_size = 0
 
     _root_is_file = False
+
+    def __init__(self, settings):
+        self._settings = settings
 
     def execute(self, task):
         self._task = task
@@ -93,7 +97,7 @@ class TaskRunner:
         self._source_files_count += 1
 
         if destination.exists():
-            if destination.stat().st_mtime < file.stat().st_mtime:
+            if not self._settings[c.CHECK_ONLY_BY_NAME] and destination.stat().st_mtime < file.stat().st_mtime:
                 self._copy_and_increment(file, destination, False)
         else:
             destination = destination.parent
