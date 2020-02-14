@@ -12,6 +12,7 @@ from utils import *
 
 class TaskRunner:
     _task = None
+    _action = None
     _settings = {}
     _report = {}
 
@@ -26,10 +27,11 @@ class TaskRunner:
     def __init__(self, settings):
         self._settings = settings
 
-    def execute(self, task):
+    def execute(self, task, action):
         self._task = task
+        self._action = action
 
-        self._report[c.HEAD] = '\n' + 'Copy data from %s to %s' % (task.source, task.destination) + '\n'
+        self._report[c.HEAD] = '\n' + 'Copied data from %s to %s' % (task.source, task.destination) + '\n'
         source_path = Path(task.source).expanduser()
 
         if not source_path.exists():
@@ -97,8 +99,15 @@ class TaskRunner:
         self._source_files_count += 1
 
         if destination.exists():
-            if not self._settings[c.CHECK_ONLY_BY_NAME] and destination.stat().st_mtime < file.stat().st_mtime:
+            if self._settings[c.CHECK_ONLY_BY_NAME]:
+                self._action(format('Skipped: file: %s in directory %s already exist.' % (file.name, destination)))
+            elif destination.stat().st_mtime < file.stat().st_mtime:
                 self._copy_and_increment(file, destination, False)
+            else:
+                self._action(format(
+                    'Skipped: file %s in directory %s is newer than one from source directory.'
+                    % (file.name, destination)
+                ))
         else:
             destination = destination.parent
             self._create_dir(destination)
@@ -108,6 +117,8 @@ class TaskRunner:
         copy(sour.absolute(), des)
         if is_new:
             self._copied_files_count += 1
+            self._action(format('Copied: file %s to -> %s' % (sour, des.parent)))
         else:
             self._updated_files_count += 1
+            self._action(format('Updated: file %s in %s' % (sour, des.parent)))
         self._data_size += sour.stat().st_size

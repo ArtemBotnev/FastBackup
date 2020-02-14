@@ -15,6 +15,14 @@ from runner import TaskRunner
 from utils import Timer
 
 
+def verbose_action(s):
+    print(s)
+
+
+def do_nothing(s):
+    pass
+
+
 def print_report(r):
     print(r[c.HEAD])
     print(r[c.DURATION])
@@ -38,7 +46,11 @@ settings = parser.settings
 
 for t in tasks:
     try:
-        report = TaskRunner(settings).execute(t)
+        a = do_nothing
+        if settings[c.VERBOSE]:
+            a = verbose_action
+
+        report = TaskRunner(settings).execute(t, a)
         print_report(report)
     except FileNotFoundError:
         print('Source directory %s doesn\'t exist' % t.source)

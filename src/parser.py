@@ -23,7 +23,7 @@ class Parser:
     def parse_settings(self, file_name):
         for prop in self._get_items(file_name, './property'):
             self._settings[prop.attrib['key']] = prop.attrib['value'] == c.TRUE
-            return self
+        return self
 
     def _get_items(self, file_name, item_name):
         file_full_path = file_name + c.XML_POSTFIX

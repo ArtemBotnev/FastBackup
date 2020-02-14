@@ -9,6 +9,14 @@
 <!-- When this property is yes - -->
 <!--   each file will be copied only if it doesn't exist in destination directory (file with equal name and path).-->
 
+<!--Property verbose:-->
+<!-- When this property is no - -->
+<!--   only final report of directory copying will be printed in terminal. -->
+<!-- When this property is yes - -->
+<!--   final report of directory copying will be printed in terminal -->
+<!--   and log for each file will be printed in terminal in any case, whether it has been copied, skipped or updated. -->
+
 <settings>
     <property key="check_only_by_name" value="no"/>
+    <property key="verbose" value="yes"/>
 </settings>
