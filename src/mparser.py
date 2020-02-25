@@ -1,5 +1,5 @@
 # Fast backup
-# Copyright Artem Botnev 2019
+# Copyright Artem Botnev 2019-2020
 # MIT License
 
 import xml.etree.ElementTree as p

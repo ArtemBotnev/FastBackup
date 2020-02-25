@@ -1,5 +1,5 @@
 # Fast backup
-# Copyright Artem Botnev 2019
+# Copyright Artem Botnev 2019-2020
 # MIT License
 
 import time
@@ -14,6 +14,10 @@ class Timer:
     @staticmethod
     def get_current_time():
         return datetime.now().strftime(c.TIME_PATTERN)
+
+    @staticmethod
+    def get_time_stamp():
+        return datetime.now().strftime(c.TIME_STAMP_PATTERN)
 
     def start(self):
         self._start_time = time.time()

@@ -16,7 +16,15 @@
 <!--   final report of directory copying will be printed in terminal -->
 <!--   and log for each file will be printed in terminal in any case, whether it has been copied, skipped or updated. -->
 
+<!--Property logging:-->
+<!-- When this property is yes - -->
+<!--   script will create a log file in /logs directory and write logs to this file. -->
+<!--   File get name from script's start time. -->
+<!-- When this property is no - -->
+<!--   Nothing special happens. -->
+
 <settings>
     <property key="check_only_by_name" value="no"/>
     <property key="verbose" value="yes"/>
+    <property key="logging" value="yes"/>
 </settings>

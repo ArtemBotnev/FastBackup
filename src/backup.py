@@ -1,5 +1,5 @@
 # Fast backup
-# Copyright Artem Botnev 2019
+# Copyright Artem Botnev  2019-2020
 # MIT License
 
 # Requires python version 3.5 or higher
@@ -10,8 +10,9 @@
 # Exclude empty folders
 
 import constants as c
-from parser import Parser
+from mparser import Parser
 from runner import TaskRunner
+from logger import Logger
 from utils import Timer
 
 
@@ -42,6 +43,7 @@ print()
 
 parser = Parser().parse_tasks(c.DIRECTORIES).parse_settings(c.SETTINGS)
 tasks = parser.tasks
+logger = Logger(Timer.get_time_stamp())
 settings = parser.settings
 
 for t in tasks:
