@@ -11,5 +11,7 @@
  Exclude empty folders.
  
 #### *How does it work?*
- Specify your source and destination directories in directories.xml file (read explanation in this file).
- On Linux or Mac OS just run ``` ./backup.sh ```
+ Specify your source and destination directories in directories.xml file (read explanation in this file).  
+ Specify additional settings for script in settings.xml file (read explanation in this file).  
+ On Linux or Mac OS just run ``` ./backup.sh ```  
+ On Windows double click on ``` backup.bat ```  
