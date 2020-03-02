@@ -2,12 +2,12 @@
 # Copyright Artem Botnev  2019-2020
 # MIT License
 
-DIRECTORIES = 'directories'
-# DIRECTORIES = '../directories'
-SETTINGS = 'settings'
-# SETTINGS = '../settings'
-# LOGS_DIR = '../logs'
-LOGS_DIR = 'logs'
+# DIRECTORIES = 'directories'
+DIRECTORIES = '../directories'
+# SETTINGS = 'settings'
+SETTINGS = '../settings'
+# LOGS_DIR = 'logs'
+LOGS_DIR = '../logs'
 XML_POSTFIX = '.xml'
 LOG_POSTFIX = '.log'
 

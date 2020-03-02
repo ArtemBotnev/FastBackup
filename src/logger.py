@@ -29,7 +29,7 @@ class Logger:
         if self._file_path is None:
             self._file_path = self._dir.joinpath(self._timestamp + c.LOG_POSTFIX)
             self._file = self._file_path.open("w", encoding="utf-8")
-        self._file.write(string.strip() + '\n')
+        print(string, file=self._file)
 
     def _close(self):
         self._file.close()

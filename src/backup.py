@@ -18,6 +18,8 @@ from utils import Timer
 
 def verbose_action(s):
     print(s)
+    if settings[c.LOGGING]:
+        logger.writeLog(s)
 
 
 def do_nothing(s):
@@ -25,26 +27,26 @@ def do_nothing(s):
 
 
 def print_report(r):
-    print(r[c.HEAD])
-    print(r[c.DURATION])
-    print()
-    print(r[c.SOURCE_DIR_COUNT])
-    print(r[c.SOURCE_FILES_COUNT])
-    print(r[c.COPIED_FILES_COUNT])
-    print(r[c.UPDATED_FILES_COUNT])
-    print(r[c.DATA_SIZE])
-    print()
-    print()
+    rep = \
+        r[c.HEAD] + '\n' + r[c.DURATION] + '\n\n' \
+        + r[c.SOURCE_DIR_COUNT] + '\n' + r[c.SOURCE_FILES_COUNT] + '\n' \
+        + r[c.COPIED_FILES_COUNT] + '\n' + r[c.UPDATED_FILES_COUNT] + '\n' + r[c.DATA_SIZE] + '\n\n'
 
+    print(rep)
 
-print()
-print('STARTED at %s' % Timer.get_current_time())
-print()
+    if settings[c.LOGGING]:
+        logger.writeLog(rep)
+
 
 parser = Parser().parse_tasks(c.DIRECTORIES).parse_settings(c.SETTINGS)
 tasks = parser.tasks
 logger = Logger(Timer.get_time_stamp())
 settings = parser.settings
+
+start_log = '\nSTARTED at %s\n' % Timer.get_current_time()
+print(start_log)
+if settings[c.LOGGING]:
+    logger.writeLog(start_log)
 
 for t in tasks:
     try:
@@ -57,4 +59,9 @@ for t in tasks:
     except FileNotFoundError:
         print('Source directory %s doesn\'t exist' % t.source)
 
-print('FINISHED at %s' % Timer.get_current_time())
+finish_log = 'FINISHED at %s' % Timer.get_current_time()
+print(finish_log)
+if settings[c.LOGGING]:
+    logger.writeLog(finish_log)
+
+logger.close()
