@@ -12,26 +12,18 @@ class Timer:
     _finish_time = 0
 
     @staticmethod
-    def get_current_time():
+    def get_current_time_str():
         return datetime.now().strftime(c.TIME_PATTERN)
 
     @staticmethod
     def get_time_stamp():
         return datetime.now().strftime(c.TIME_STAMP_PATTERN)
 
-    def start(self):
-        self._start_time = time.time()
-        return self
-
-    def stop(self):
-        self._finish_time = time.time()
-        return self
-
-    def show_time(self):
-        _time = self._finish_time - self._start_time
-        sec = float(_time) % 60
+    @staticmethod
+    def show_time(seconds):
+        sec = float(seconds) % 60
         sec_string = format('%.2f seconds' % sec)
-        minutes = int(_time) // 60
+        minutes = int(seconds) // 60
         minutes_string = ''
         hours_string = ''
         if minutes > 0:
@@ -43,9 +35,20 @@ class Timer:
 
         return 'It has taken ' + hours_string + minutes_string + sec_string
 
+    def get_task_duration(self):
+        return self._finish_time - self._start_time
+
+    def start(self):
+        self._start_time = time.time()
+        return self
+
+    def stop(self):
+        self._finish_time = time.time()
+        return self
+
 
 class DataMeasure:
-    
+
     @staticmethod
     def show_data_size(count):
         m = ['bytes', 'kB', 'mB', 'gB']

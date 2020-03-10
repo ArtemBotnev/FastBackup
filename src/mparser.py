@@ -18,7 +18,7 @@ class Parser:
         for task in self._get_items(file_name, './copytask'):
             task = CopyTask(task.attrib['source'], task.attrib['destination'], [])
             self._tasks.append(task)
-            return self
+        return self
 
     def parse_settings(self, file_name):
         for prop in self._get_items(file_name, './property'):

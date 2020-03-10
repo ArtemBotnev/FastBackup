@@ -14,7 +14,6 @@ class TaskRunner:
     _task = None
     _action = None
     _settings = {}
-    _report = {}
 
     _source_dir_count = 0
     _source_files_count = 0
@@ -31,7 +30,6 @@ class TaskRunner:
         self._task = task
         self._action = action
 
-        self._report[c.HEAD] = '\n' + 'Copied data from %s to %s' % (task.source, task.destination) + '\n'
         source_path = Path(task.source).expanduser()
 
         if not source_path.exists():
@@ -50,16 +48,14 @@ class TaskRunner:
         self._copy_tree(source_path, dist_path)
         timer.stop()
 
-        self._report[c.DURATION] = timer.show_time()
-        self._report[c.SOURCE_DIR_COUNT] = format('Total count of source packages:  %d' % self._source_dir_count)
-        self._report[c.SOURCE_FILES_COUNT] = format('Total count of source files:     %d' % self._source_files_count)
-        self._report[c.COPIED_FILES_COUNT] = format('Total count of copied files:     %d' % self._copied_files_count)
-        self._report[c.UPDATED_FILES_COUNT] = format('Total count of updated files:    %d' % self._updated_files_count)
-        self._report[c.DATA_SIZE] = format(
-            'Total copied data:               %s' % DataMeasure.show_data_size(self._data_size)
+        return Report(
+            timer.get_task_duration(),
+            self._source_dir_count,
+            self._source_files_count,
+            self._copied_files_count,
+            self._updated_files_count,
+            self._data_size
         )
-
-        return self._report
 
     def _create_dir(self, p):
         try:
@@ -68,23 +64,11 @@ class TaskRunner:
             print('Creation of the directory %s failed, check path name and try again' % self._task.destination)
 
     def _check_path(self, p):
-        first_word = 'directory'
-        if self._root_is_file:
-            first_word = 'file'
 
         if not p.exists():
-            message = format(
-                '%s %s doesn\'t exist, would you like to create it? press y(yes), n(no)' % (first_word, p)
-            )
-            answer = input(message)
-            if answer == 'y' or answer == 'Y':
-                if self._root_is_file:
-                    p = p.parent
-                self._create_dir(p)
-            elif answer == 'n' or answer == 'N':
-                print('Destination directory doesn\'t exist')
-            else:
-                self._check_path(p)
+            if self._root_is_file:
+                p = p.parent
+            self._create_dir(p)
 
     def _copy_tree(self, source, destination):
         if source.is_dir():
@@ -122,3 +106,55 @@ class TaskRunner:
             self._updated_files_count += 1
             self._action(format('Updated: file %s in %s' % (sour, des.parent)))
         self._data_size += sour.stat().st_size
+
+
+class Report:
+    time_sec = .0
+    source_dir_count = 0
+    source_files_count = 0
+    copied_files_count = 0
+    updated_files_count = 0
+    data_size = 0
+
+    def __init__(
+            self,
+            time_sec,
+            source_dir_count,
+            source_files_count,
+            copied_files_count,
+            updated_files_count,
+            data_size
+    ):
+        self.time_sec = time_sec
+        self.source_dir_count = source_dir_count
+        self.source_files_count = source_files_count
+        self.copied_files_count = copied_files_count
+        self.updated_files_count = updated_files_count
+        self.data_size = data_size
+
+
+class Receiver:
+    _total_time_sec = .0
+    _total_source_dir_count = 0
+    _total_source_files_count = 0
+    _total_copied_files_count = 0
+    _total_updated_files_count = 0
+    _total_data_size = 0
+
+    def append(self, report):
+        self._total_time_sec += report.time_sec
+        self._total_source_dir_count += report.source_dir_count
+        self._total_source_files_count += report.source_files_count
+        self._total_copied_files_count += report.copied_files_count
+        self._total_updated_files_count += report.updated_files_count
+        self._total_data_size += report.data_size
+
+    def release(self):
+        return Report(
+            self._total_time_sec,
+            self._total_source_dir_count,
+            self._total_source_files_count,
+            self._total_copied_files_count,
+            self._total_updated_files_count,
+            self._total_data_size
+        )

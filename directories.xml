@@ -4,6 +4,7 @@
 <!--Last directory (file) in the source path will be copied into directory of destination path.-->
 
 <directories>
-<!--    <copytask source="~/Downloads/DemoPrograms" destination="~/Desktop/test"/>-->
+    <copytask source="~/Downloads/DemoPrograms" destination="~/Desktop/test"/>
     <copytask source="~/Desktop/source" destination="~/Desktop/test2"/>
+    <copytask source="~/Desktop/versions.txt" destination="~/Desktop/test"/>
 </directories>
