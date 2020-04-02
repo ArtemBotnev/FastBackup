@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!--Specify your source and destination directories here, as shown in example below (change it for you).-->
-<!--Last directory (file) in the source path will be copied into directory of destination path.-->
+<!-- Specify your source and destination directories here, as shown in example below (change it for you). -->
+<!-- Last directory (file) in the source path will be copied into directory of destination path. -->
+<!-- Optionally exclude subdirectories and files - specify their related path from source path. -->
 
 <directories>
-    <copytask source="~/Downloads/DemoPrograms" destination="~/Desktop/test"/>
+    <copytask source="~/Downloads/DemoPrograms" destination="~/Desktop/test">
+        <excluded>
+            <item>RTC</item>
+            <item>notes.txt</item>
+            <item>test/java_apps</item>
+        </excluded>
+    </copytask>
     <copytask source="~/Desktop/source" destination="~/Desktop/test2"/>
     <copytask source="~/Desktop/versions.txt" destination="~/Desktop/test"/>
 </directories>

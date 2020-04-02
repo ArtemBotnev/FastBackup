@@ -13,6 +13,7 @@ from utils import *
 class TaskRunner:
     _task = None
     _action = None
+    _excluded_paths = set
     _settings = {}
 
     _source_dir_count = 0
@@ -31,6 +32,7 @@ class TaskRunner:
         self._action = action
 
         source_path = Path(task.source).expanduser()
+        self._excluded_paths = set(map(lambda e: source_path.joinpath(e), self._task.excluded_list))
 
         if not source_path.exists():
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), source_path)
@@ -64,13 +66,15 @@ class TaskRunner:
             print('Creation of the directory %s failed, check path name and try again' % self._task.destination)
 
     def _check_path(self, p):
-
         if not p.exists():
             if self._root_is_file:
                 p = p.parent
             self._create_dir(p)
 
     def _copy_tree(self, source, destination):
+        if self._is_path_excluded(source):
+            return
+
         if source.is_dir():
             self._source_dir_count += 1
             for path in source.iterdir():
@@ -106,6 +110,17 @@ class TaskRunner:
             self._updated_files_count += 1
             self._action(format('Updated: file %s in %s' % (sour, des.parent)))
         self._data_size += sour.stat().st_size
+
+    def _is_path_excluded(self, path):
+        if self._excluded_paths.__contains__(path):
+            if path.is_dir():
+                p = 'directory'
+            else:
+                p = 'file'
+            self._action(format('Skipped: %s %s is excluded.' % (p, path)))
+            return True
+        else:
+            return False
 
 
 class Report:

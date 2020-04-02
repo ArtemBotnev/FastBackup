@@ -16,7 +16,13 @@ class Parser:
 
     def parse_tasks(self, file_name):
         for task in self._get_items(file_name, './copytask'):
-            task = CopyTask(task.attrib['source'], task.attrib['destination'], [])
+            excluded = task.find('excluded')
+            if excluded is not None:
+                excluded = task.find('excluded').findall('item')
+                excluded = list(map(lambda e: e.text, excluded))
+            else:
+                excluded = []
+            task = CopyTask(task.attrib['source'], task.attrib['destination'], excluded)
             self._tasks.append(task)
         return self
 
